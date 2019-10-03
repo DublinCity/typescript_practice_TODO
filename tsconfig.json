@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/", // for ts-compiler
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true, // to use commonjs lib(ex. react)
+    "module": "es6", // es6 module(import/export syntax)
+    "target": "es6", // ES6 language
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*", "./@types/*"]
+    }
+  },
+  "include": ["src/**/*", "types"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
