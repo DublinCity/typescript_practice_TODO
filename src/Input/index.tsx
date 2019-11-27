@@ -13,7 +13,6 @@ const Input: FunctionComponent<Props> = ({ onEnter }) => {
     <div>
       <input
         onKeyPress={e => {
-          console.log(e.key === ENTER_KEY);
           if (e.key === ENTER_KEY && inputState) {
             onEnter(inputState);
             clearText();
