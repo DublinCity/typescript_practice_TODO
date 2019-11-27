@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
+import React, { FunctionComponent } from "react";
 import { ListProps } from "./interface/index";
 
 import Item from "./components/Item";
@@ -8,7 +8,6 @@ const ListContainer: FunctionComponent<ListProps> = ({
   handleRemove,
   handleEdit
 }) => {
-  console.log([...list]);
   return (
     <div>
       {[...list].map(([id, title]) => (

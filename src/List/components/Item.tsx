@@ -1,6 +1,24 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import { ItemProps } from "../interface/index";
 
+interface InputTextProps {
+  text:string;
+  confirmTodo(title:string): void;
+  cancelEdit():void;
+}
+
+const InputText: FunctionComponent<InputTextProps> = ({
+  text,confirmTodo,cancelEdit
+}) => {
+  const [tempText, setTempText] = useState(text);
+  return <><input
+  onChange={e => setTempText(e.target.value)}
+  value={tempText}
+></input>
+  <span onClick={() => confirmTodo(tempText)}>확인</span>
+  <span onClick={cancelEdit}>취소</span></>
+}
+
 const Item: FunctionComponent<ItemProps> = ({
   id,
   title,
@@ -10,9 +28,9 @@ const Item: FunctionComponent<ItemProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [tempText, setTempText] = useState(title);
 
-  const confirmTodo = () => {
+  const confirmTodo = (value:string) => {
     setIsEditing(false);
-    handleEdit(id, tempText);
+    handleEdit(id, value);
   };
   const cancelEdit = () => {
     setIsEditing(false);
@@ -27,12 +45,10 @@ const Item: FunctionComponent<ItemProps> = ({
       <span>{id}</span>
       {isEditing ? (
         <span>
-          <input
-            onChange={e => setTempText(e.target.value)}
-            value={tempText}
-          ></input>
-          <span onClick={confirmTodo}>확인</span>
-          <span onClick={cancelEdit}>취소</span>
+          <InputText
+          confirmTodo = {confirmTodo} cancelEdit = {cancelEdit} text={title}
+          ></InputText>
+        
         </span>
       ) : (
         <>
