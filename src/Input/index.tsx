@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FC, useState } from "react";
 
 const ENTER_KEY = "Enter";
 
@@ -6,7 +6,7 @@ interface Props {
   onEnter(value: string): void;
 }
 
-const Input: FunctionComponent<Props> = ({ onEnter }) => {
+const Input: FC<Props> = ({ onEnter }) => {
   const [inputState, setInputState] = useState("");
   const clearText = () => setInputState("");
   return (

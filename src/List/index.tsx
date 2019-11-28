@@ -1,24 +1,25 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 import { ListProps } from "./interface/index";
 
 import Item from "./components/Item";
 
-const ListContainer: FunctionComponent<ListProps> = ({
+const ListContainer: FC<ListProps> = ({
   list,
   handleRemove,
   handleEdit
 }) => {
   return (
     <div>
-      {[...list].map(([id, title]) => (
-        <Item
+      {
+        list.map(({ id, text, done }) => <Item
           key={id}
           id={id}
-          title={title}
+          text={text}
+          done={done}
           handleRemove={handleRemove}
           handleEdit={handleEdit}
-        />
-      ))}
+        />)
+      }
     </div>
   );
 };

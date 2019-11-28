@@ -5,6 +5,7 @@
     "noImplicitAny": true,
     "esModuleInterop": true, // to use commonjs lib(ex. react)
     "module": "es6", // es6 module(import/export syntax)
+    "moduleResolution": "node", // In order to include type definitions linked in package.json files
     "target": "es6", // ES6 language
     "strict": true,
     "jsx": "react",

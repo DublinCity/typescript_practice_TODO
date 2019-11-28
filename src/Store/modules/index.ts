@@ -1,8 +1,10 @@
-import { combineReducer} from 'redux'
-import { TodoList } from './todos';
+import { combineReducers, createStore} from 'redux'
+import { TodoList, todoReducer } from './todos';
 
-export interface StoreState {
+export type StoreState = {
   todos: TodoList
 }
 
-export default combineReducer
+const rootReducer = combineReducers<StoreState>({ todos: todoReducer })
+export default createStore(rootReducer)
+export type RootState = ReturnType<typeof rootReducer>

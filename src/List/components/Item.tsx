@@ -1,34 +1,37 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
+import React, { useState, useEffect, FC } from "react";
 import { ItemProps } from "../interface/index";
 
 interface InputTextProps {
-  text:string;
-  confirmTodo(title:string): void;
-  cancelEdit():void;
+  text: string;
+  confirmTodo(title: string): void;
+  cancelEdit(): void;
 }
 
-const InputText: FunctionComponent<InputTextProps> = ({
-  text,confirmTodo,cancelEdit
+const InputText: FC<InputTextProps> = ({
+  text,
+  confirmTodo,
+  cancelEdit
 }) => {
   const [tempText, setTempText] = useState(text);
-  return <><input
-  onChange={e => setTempText(e.target.value)}
-  value={tempText}
-></input>
-  <span onClick={() => confirmTodo(tempText)}>확인</span>
-  <span onClick={cancelEdit}>취소</span></>
+  return <>
+  <input
+    onChange={e => setTempText(e.target.value)}
+    value={tempText}
+  />
+    <span onClick={() => confirmTodo(tempText)}>확인</span>
+    <span onClick={cancelEdit}>취소</span></>
 }
 
-const Item: FunctionComponent<ItemProps> = ({
+const Item: FC<ItemProps> = ({
   id,
-  title,
+  text,
+  done,
   handleRemove,
   handleEdit
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [tempText, setTempText] = useState(title);
 
-  const confirmTodo = (value:string) => {
+  const confirmTodo = (value: string) => {
     setIsEditing(false);
     handleEdit(id, value);
   };
@@ -36,26 +39,22 @@ const Item: FunctionComponent<ItemProps> = ({
     setIsEditing(false);
   };
 
-  useEffect(() => {
-    setTempText(title);
-  }, [title, isEditing]);
-
   return (
     <div>
       <span>{id}</span>
       {isEditing ? (
         <span>
           <InputText
-          confirmTodo = {confirmTodo} cancelEdit = {cancelEdit} text={title}
-          ></InputText>
-        
+            confirmTodo={confirmTodo} cancelEdit={cancelEdit} text={text}
+          ></InputText>{done ? 'O' : 'X'}
         </span>
       ) : (
-        <>
-          {title} <span onClick={() => setIsEditing(true)}>수정하기</span>
-        </>
-      )}
-      <span onClick={() => handleRemove(id)}>X</span>
+          <>
+            {text} <span onClick={() => setIsEditing(true)}>수정하기</span>
+            <span onClick={() => handleRemove(id)}>X</span>
+          </>
+        )}
+
     </div>
   );
 };

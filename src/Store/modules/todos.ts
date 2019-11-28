@@ -1,10 +1,10 @@
-export interface TodoItem {
+export type TodoItem = {
   id: number,
   text: string,
   done: boolean
 }
 
-export interface TodoList {
+export type TodoList = {
   list: TodoItem[],
 }
 
@@ -25,6 +25,14 @@ interface RemoveAction {
     id: number
   }
 }
+
+interface EditAction {
+  type: typeof EDIT_TODO,
+  meta: {
+    id: number,
+    text: string
+  }
+}
 interface ToggleAction {
   type: typeof TOGGLE_TODO,
   meta: {
@@ -39,17 +47,13 @@ interface ChangeInputAction {
   }
 }
 
-export type TodoActionTypes = 
-| CreateAction | RemoveAction | ToggleAction | ChangeInputAction
+export type TodoActionTypes = CreateAction | RemoveAction | EditAction | ToggleAction | ChangeInputAction
 
 let autoId = 0;
 
-function create(text: string) {
+function create(text: string):TodoActionTypes {
   return {
     type: CREATE_TODO,
-    meta: {
-      id: 1
-    },
     payload: {
       id: autoId++,
       text,
@@ -58,11 +62,12 @@ function create(text: string) {
   }
 }
 
-function edit(id:number) {
+function edit(id:number, text: string) {
   return {
     type: EDIT_TODO,
     meta: {
-      id
+      id,
+      text
     }
   }
 }
@@ -103,6 +108,9 @@ export function todoReducer (state=initialState, action: TodoActionTypes): TodoL
     }
     case REMOVE_TODO: return {
       list: state.list.filter(item => item.id !== action.meta.id)
+    }
+    case EDIT_TODO: return {
+      list: state.list.map(item => item.id === action.meta.id ? {...item, text: action.meta.text}: item)
     }
     case TOGGLE_TODO: return {
       list: state.list.map(item => {
